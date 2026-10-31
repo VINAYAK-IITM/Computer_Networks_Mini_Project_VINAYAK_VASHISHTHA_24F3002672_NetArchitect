@@ -1,0 +1,38 @@
+{
+  "profile_id": "metro",
+  "name": "Profile 2: Metro MAN",
+  "description": "Headquarters, two remote offices, and a FinTech colocation presence with 450 users, OS2/EVPL transport, QoS targets, and dual-homed failover.",
+  "root_cidr": "10.20.0.0/20",
+  "endpoint_count": 450,
+  "switch_port_density": 48,
+  "site_count": 4,
+  "cloud_boundary": false,
+  "resiliency": "dual_homed",
+  "target_latency_ms": 5,
+  "router_id": "10.20.255.1",
+  "route_summary": "10.20.0.0/20",
+  "links": [
+    {"name": "HQ to FinTech colo optical path", "distance_m": 35000, "role": "backbone", "requested_medium": "fiber", "connectors": 4, "splices": 8, "transceiver_budget_db": 23},
+    {"name": "East office EVPL", "distance_m": 15000, "role": "wan", "requested_medium": "carrier"},
+    {"name": "West office primary EVPL", "distance_m": 28000, "role": "wan", "requested_medium": "carrier"},
+    {"name": "West office diverse backup EVPL", "distance_m": 32000, "role": "wan", "requested_medium": "carrier"}
+  ],
+  "subnets": [
+    {"name": "hq_users", "hosts": 250, "vlan_id": 10, "purpose": "Headquarters users", "area_id": 0},
+    {"name": "hq_voice", "hosts": 40, "vlan_id": 30, "purpose": "Headquarters voice", "area_id": 0},
+    {"name": "hq_management", "hosts": 32, "vlan_id": 99, "purpose": "Headquarters management", "area_id": 0},
+    {"name": "east_users", "hosts": 100, "vlan_id": 110, "purpose": "East office users", "area_id": 10},
+    {"name": "east_voice", "hosts": 24, "vlan_id": 130, "purpose": "East office voice", "area_id": 10},
+    {"name": "east_management", "hosts": 16, "vlan_id": 199, "purpose": "East office management", "area_id": 10},
+    {"name": "west_users", "hosts": 100, "vlan_id": 210, "purpose": "West office users", "area_id": 20},
+    {"name": "west_voice", "hosts": 24, "vlan_id": 230, "purpose": "West office voice", "area_id": 20},
+    {"name": "west_management", "hosts": 16, "vlan_id": 299, "purpose": "West office management", "area_id": 20},
+    {"name": "colo_services", "hosts": 50, "vlan_id": 310, "purpose": "FinTech colocation services", "area_id": 30},
+    {"name": "core_edge", "hosts": 1, "purpose": "HQ core-to-edge transit (gateway plus peer)", "area_id": 0, "interface": "GigabitEthernet0/0"},
+    {"name": "east_transit", "hosts": 1, "purpose": "East EVPL routed handoff (gateway plus peer)", "area_id": 0, "interface": "GigabitEthernet0/1"},
+    {"name": "west_primary", "hosts": 1, "purpose": "West primary routed handoff (gateway plus peer)", "area_id": 0, "interface": "GigabitEthernet0/2", "ospf_cost": 10},
+    {"name": "west_backup", "hosts": 1, "purpose": "West diverse backup handoff (gateway plus peer)", "area_id": 0, "interface": "GigabitEthernet0/3", "ospf_cost": 100},
+    {"name": "colo_transit", "hosts": 1, "purpose": "Colocation routed handoff (gateway plus peer)", "area_id": 0, "interface": "GigabitEthernet0/4"}
+  ],
+  "acls": []
+}

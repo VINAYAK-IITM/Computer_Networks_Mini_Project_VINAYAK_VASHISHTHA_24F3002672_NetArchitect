@@ -1,0 +1,48 @@
+{
+  "profile_id": "global",
+  "name": "Profile 3: Global WAN",
+  "description": "Four-city and cloud design for 2,000 IoT/scanner endpoints using site segmentation, IPsec, multi-area OSPF, eBGP, and a reserved route aggregate.",
+  "root_cidr": "10.30.0.0/16",
+  "endpoint_count": 2000,
+  "switch_port_density": 48,
+  "site_count": 5,
+  "cloud_boundary": true,
+  "resiliency": "redundant",
+  "target_latency_ms": null,
+  "router_id": "10.30.255.1",
+  "route_summary": "10.30.0.0/16",
+  "bgp_asn": 65010,
+  "bgp_peer_asn": 65020,
+  "bgp_peer_link": "cloud_transit",
+  "vpn_peer_ip": "198.51.100.10",
+  "vpn_remote_cidr": "10.31.0.0/16",
+  "links": [
+    {"name": "City 1 to City 2 carrier WAN", "distance_m": 2200000, "role": "wan", "requested_medium": "carrier"},
+    {"name": "City 2 to City 3 carrier WAN", "distance_m": 3100000, "role": "wan", "requested_medium": "carrier"},
+    {"name": "City 3 to City 4 carrier WAN", "distance_m": 1800000, "role": "wan", "requested_medium": "carrier"},
+    {"name": "Cloud IPsec underlay", "distance_m": 25000, "role": "wan", "requested_medium": "carrier"},
+    {"name": "City data-center fiber handoff", "distance_m": 8000, "role": "backbone", "requested_medium": "fiber"}
+  ],
+  "subnets": [
+    {"name": "city1_iot", "hosts": 600, "vlan_id": 110, "purpose": "City 1 IoT and scanner devices", "area_id": 10},
+    {"name": "city2_iot", "hosts": 500, "vlan_id": 120, "purpose": "City 2 IoT and scanner devices", "area_id": 20},
+    {"name": "city3_scanners", "hosts": 400, "vlan_id": 130, "purpose": "City 3 scanners", "area_id": 30},
+    {"name": "city4_scanners", "hosts": 500, "vlan_id": 140, "purpose": "City 4 scanners", "area_id": 40},
+    {"name": "city1_users", "hosts": 180, "vlan_id": 111, "purpose": "City 1 staff", "area_id": 10},
+    {"name": "city2_users", "hosts": 140, "vlan_id": 121, "purpose": "City 2 staff", "area_id": 20},
+    {"name": "city3_users", "hosts": 120, "vlan_id": 131, "purpose": "City 3 staff", "area_id": 30},
+    {"name": "city4_users", "hosts": 160, "vlan_id": 141, "purpose": "City 4 staff", "area_id": 40},
+    {"name": "cloud_apps", "hosts": 250, "vlan_id": 250, "purpose": "Cloud application segment", "area_id": 0},
+    {"name": "management", "hosts": 100, "vlan_id": 299, "purpose": "Global network management", "area_id": 0},
+    {"name": "guest", "hosts": 120, "vlan_id": 290, "purpose": "Guest access", "area_id": 0},
+    {"name": "core_edge", "hosts": 1, "purpose": "Core-to-edge transit (gateway plus peer)", "area_id": 0, "interface": "GigabitEthernet0/0"},
+    {"name": "city2_transit", "hosts": 1, "purpose": "City 2 WAN handoff (gateway plus peer)", "area_id": 0, "interface": "GigabitEthernet0/1"},
+    {"name": "city3_transit", "hosts": 1, "purpose": "City 3 WAN handoff (gateway plus peer)", "area_id": 0, "interface": "GigabitEthernet0/2"},
+    {"name": "city4_transit", "hosts": 1, "purpose": "City 4 WAN handoff (gateway plus peer)", "area_id": 0, "interface": "GigabitEthernet0/3"},
+    {"name": "cloud_transit", "hosts": 1, "purpose": "Cloud eBGP/IPsec routed handoff (gateway plus peer)", "area_id": 0, "interface": "GigabitEthernet0/4"}
+  ],
+  "acls": [
+    {"name": "IOT-TO-MANAGEMENT", "source": "city1_iot", "destination": "management", "action": "deny"},
+    {"name": "GUEST-TO-MANAGEMENT", "source": "guest", "destination": "management", "action": "deny"}
+  ]
+}

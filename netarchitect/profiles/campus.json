@@ -1,0 +1,31 @@
+{
+  "profile_id": "campus",
+  "name": "Profile 1: Campus LAN",
+  "description": "Three-building campus with 1,600 planned endpoints, PoE access, VLAN segmentation, rapid spanning tree, and a single OSPF domain.",
+  "root_cidr": "10.10.0.0/20",
+  "endpoint_count": 1600,
+  "switch_port_density": 48,
+  "site_count": 1,
+  "cloud_boundary": false,
+  "resiliency": "standard",
+  "target_latency_ms": null,
+  "router_id": "10.10.255.1",
+  "links": [
+    {"name": "Building 1 access run", "distance_m": 85, "role": "access", "requested_medium": "auto"},
+    {"name": "Building 1 to Building 2 backbone", "distance_m": 260, "role": "backbone", "requested_medium": "fiber"},
+    {"name": "Building 2 to Building 3 backbone", "distance_m": 360, "role": "backbone", "requested_medium": "fiber"}
+  ],
+  "subnets": [
+    {"name": "staff", "hosts": 500, "vlan_id": 10, "purpose": "Staff workstations", "area_id": 0},
+    {"name": "students", "hosts": 400, "vlan_id": 20, "purpose": "Student devices", "area_id": 0},
+    {"name": "voice", "hosts": 200, "vlan_id": 30, "purpose": "IP telephony", "area_id": 0},
+    {"name": "access_points", "hosts": 50, "vlan_id": 40, "purpose": "Managed PoE wireless access points", "area_id": 0},
+    {"name": "iot", "hosts": 150, "vlan_id": 50, "purpose": "Campus IoT devices", "area_id": 0},
+    {"name": "guest", "hosts": 250, "vlan_id": 90, "purpose": "Guest wireless clients", "area_id": 0},
+    {"name": "management", "hosts": 50, "vlan_id": 99, "purpose": "Network device management", "area_id": 0},
+    {"name": "core_edge", "hosts": 1, "purpose": "Routed core-to-edge transit (gateway plus peer)", "area_id": 0, "interface": "GigabitEthernet0/0"}
+  ],
+  "acls": [
+    {"name": "GUEST-TO-MANAGEMENT", "source": "guest", "destination": "management", "action": "deny"}
+  ]
+}

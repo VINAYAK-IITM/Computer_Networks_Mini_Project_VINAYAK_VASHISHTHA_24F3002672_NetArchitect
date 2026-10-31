@@ -1,0 +1,22 @@
+{
+  "profile_id": "custom-lab",
+  "name": "Custom Lab Network",
+  "description": "Small example profile to edit for a classroom lab.",
+  "root_cidr": "10.42.0.0/24",
+  "endpoint_count": 40,
+  "switch_port_density": 24,
+  "site_count": 1,
+  "cloud_boundary": false,
+  "resiliency": "standard",
+  "target_latency_ms": null,
+  "router_id": "10.42.0.254",
+  "links": [
+    {"name": "Access layer uplink", "distance_m": 65, "role": "access", "requested_medium": "auto"}
+  ],
+  "subnets": [
+    {"name": "users", "hosts": 35, "vlan_id": 10, "purpose": "Lab clients", "area_id": 0},
+    {"name": "management", "hosts": 5, "vlan_id": 99, "purpose": "Device management", "area_id": 0},
+    {"name": "core_edge", "hosts": 1, "purpose": "Routed core-to-edge transit", "area_id": 0, "interface": "GigabitEthernet0/0"}
+  ],
+  "acls": []
+}

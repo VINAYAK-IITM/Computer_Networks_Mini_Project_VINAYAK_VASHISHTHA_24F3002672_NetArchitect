@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "profile": {
+    "profile_id": "custom-lab",
+    "name": "Custom Lab Network",
+    "description": "Small example profile to edit for a classroom lab.",
+    "root_cidr": "10.42.0.0/24",
+    "endpoint_count": 40,
+    "site_count": 1,
+    "cloud_boundary": false,
+    "target_latency_ms": null,
+    "links": [
+      {
+        "name": "Access layer uplink",
+        "distance_m": 65.0,
+        "role": "access",
+        "requested_medium": "auto",
+        "connectors": 2,
+        "splices": 0,
+        "transceiver_budget_db": 23.0
+      }
+    ],
+    "subnets": [
+      {
+        "name": "users",
+        "hosts": 35,
+        "purpose": "Lab clients",
+        "vlan_id": 10,
+        "area_id": 0,
+        "interface": null,
+        "ospf_cost": null
+      },
+      {
+        "name": "management",
+        "hosts": 5,
+        "purpose": "Device management",
+        "vlan_id": 99,
+        "area_id": 0,
+        "interface": null,
+        "ospf_cost": null
+      },
+      {
+        "name": "core_edge",
+        "hosts": 1,
+        "purpose": "Routed core-to-edge transit",
+        "vlan_id": null,
+        "area_id": 0,
+        "interface": "GigabitEthernet0/0",
+        "ospf_cost": null
+      }
+    ],
+    "acls": [],
+    "switch_port_density": 24,
+    "resiliency": "standard",
+    "route_summary": null,
+    "router_id": "10.42.0.254",
+    "bgp_asn": null,
+    "bgp_peer_asn": null,
+    "bgp_peer_link": null,
+    "vpn_peer_ip": null,
+    "vpn_remote_cidr": null
+  },
+  "media_recommendations": [
+    {
+      "link": "Access layer uplink",
+      "distance_m": 65.0,
+      "medium": "Cat6a balanced copper",
+      "standard": "10GBASE-T (IEEE 802.3an), channel up to 100 m",
+      "justification": "The run is within the 100 m Ethernet channel limit. Cat6a supports 10GBASE-T over a compliant channel; verify alien crosstalk, cable bundle temperature, and the switch's PoE power budget for attached devices.",
+      "estimated_loss_db": null,
+      "assumed_budget_db": null,
+      "budget_status": null
+    }
+  ],
+  "address_plan": [
+    {
+      "name": "users",
+      "purpose": "Lab clients",
+      "vlan_id": 10,
+      "area_id": 0,
+      "interface": null,
+      "ospf_cost": null,
+      "requested_endpoints": 35,
+      "gateway": "10.42.0.1",
+      "network": "10.42.0.0",
+      "cidr": "10.42.0.0/26",
+      "subnet_mask": "255.255.255.192",
+      "wildcard_mask": "0.0.0.63",
+      "first_usable": "10.42.0.1",
+      "last_usable": "10.42.0.62",
+      "broadcast": "10.42.0.63",
+      "usable_capacity": 62,
+      "allocated_usable": 36,
+      "utilization_percent": 58.06
+    },
+    {
+      "name": "management",
+      "purpose": "Device management",
+      "vlan_id": 99,
+      "area_id": 0,
+      "interface": null,
+      "ospf_cost": null,
+      "requested_endpoints": 5,
+      "gateway": "10.42.0.65",
+      "network": "10.42.0.64",
+      "cidr": "10.42.0.64/29",
+      "subnet_mask": "255.255.255.248",
+      "wildcard_mask": "0.0.0.7",
+      "first_usable": "10.42.0.65",
+      "last_usable": "10.42.0.70",
+      "broadcast": "10.42.0.71",
+      "usable_capacity": 6,
+      "allocated_usable": 6,
+      "utilization_percent": 100.0
+    },
+    {
+      "name": "core_edge",
+      "purpose": "Routed core-to-edge transit",
+      "vlan_id": null,
+      "area_id": 0,
+      "interface": "GigabitEthernet0/0",
+      "ospf_cost": null,
+      "requested_endpoints": 1,
+      "gateway": "10.42.0.73",
+      "network": "10.42.0.72",
+      "cidr": "10.42.0.72/30",
+      "subnet_mask": "255.255.255.252",
+      "wildcard_mask": "0.0.0.3",
+      "first_usable": "10.42.0.73",
+      "last_usable": "10.42.0.74",
+      "broadcast": "10.42.0.75",
+      "usable_capacity": 2,
+      "allocated_usable": 2,
+      "utilization_percent": 100.0
+    }
+  ],
+  "routing": {
+    "internal_protocol": "Single-Area OSPF, Area 0",
+    "external_protocol": null,
+    "subnet_count": 3,
+    "route_summary": "10.42.0.0/24",
+    "justification": "The profile has 3 routed subnet requests in one autonomous system, below the 50-subnet design threshold. A single OSPF Area 0 keeps the link-state topology simple and provides dynamic route recalculation after a topology change."
+  },
+  "assumptions": [
+    "Each subnet host request counts endpoints; one additional usable IPv4 address is reserved for its default gateway.",
+    "IPv4 network and broadcast addresses are not assignable to endpoints.",
+    "The first usable address in each subnet is the gateway.",
+    "Fiber loss is a planning estimate with generic attenuation and connector assumptions, not an optic datasheet calculation.",
+    "Generated device configuration is an educational draft that requires platform and topology review."
+  ]
+}
